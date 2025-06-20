@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Nube de Palabras Interactiva</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        background: #f0f0f0;
+        padding: 20px;
+      }
+      canvas {
+        border: 1px solid #ccc;
+        margin-top: 20px;
+        background: #ffffff;
+      }
+      #formulario {
+        margin-bottom: 20px;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/wordcloud@1.2.2/src/wordcloud2.min.js"></script>
+  </head>
+  <body>
+    <h1>🌳 Comentarios en la Nube 🌬️</h1>
+    <div id="formulario">
+      <input id="comentarioInput" type="text" placeholder="Escribe tu comentario..." size="40"/>
+      <button onclick="agregarComentario()">Enviar</button>
+    </div>
+    <canvas id="nubeCanvas" width="600" height="400"></canvas>
+
+    <script>
+      const palabras = [];
+
+      function agregarComentario() {
+        const input = document.getElementById("comentarioInput");
+        const texto = input.value.trim();
+        if (texto.length === 0) return;
+
+        const nuevasPalabras = texto.split(" ");
+        nuevasPalabras.forEach(p => palabras.push([p, 10 + Math.floor(Math.random() * 40)]));
+
+        WordCloud(document.getElementById("nubeCanvas"), {
+          list: palabras,
+          gridSize: 10,
+          weightFactor: 2,
+          rotateRatio: 0.5,
+          backgroundColor: '#ffffff',
+          color: () => `hsl(${Math.random() * 360}, 70%, 50%)`
+        });
+
+        input.value = "";
+      }
+    </script>
+  </body>
+</html>
